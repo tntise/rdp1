@@ -1,13 +1,19 @@
-# আমরা হালকা ভার্সনের উবুন্টু ডেক্সটপ (XFCE) ব্যবহার করছি যেন Render-এ ক্রাশ না করে
-FROM linuxserver/webtop:ubuntu-xfce
+# আমরা Alpine ব্যবহার করছি কারণ এটি Ubuntu থেকে ১০ গুণ হালকা
+# কিন্তু দেখতে এবং কাজ করতে একদম একই রকম (XFCE Desktop)
+FROM linuxserver/webtop:alpine-xfce
 
-# কিছু বেসিক সেটিংস
-ENV PUID=1000
-ENV PGID=1000
+# অটোমেটিক রুট ইউজার এবং পারমিশন ঠিক করা
+ENV PUID=0
+ENV PGID=0
 ENV TZ=Asia/Dhaka
 
-# ব্রাউজারে দেখার জন্য পোর্ট ওপেন করা
+# সিকিউরিটি এবং পাসওয়ার্ড সেটিংস
+# আপনি চাইলে নিচের পাসওয়ার্ড পরিবর্তন করতে পারেন, অথবা ফাঁকা রাখলে পাসওয়ার্ড চাইবে না
+ENV CUSTOM_USER=user
+ENV PASSWORD=password
+
+# পোর্ট ওপেন করা (Render এর জন্য ৩০০০ পোর্ট জরুরি)
 EXPOSE 3000
 
-# Render এর জন্য ভলিউম পাথ (অপশনাল)
+# ভলিউম কনফিগারেশন
 VOLUME /config
