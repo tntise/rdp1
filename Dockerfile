@@ -1,16 +1,18 @@
-FROM linuxserver/webtop:alpine-icewm
+# আমরা Debian ব্যবহার করছি যা Ubuntu-র মতোই কিন্তু একটু হালকা
+FROM linuxserver/webtop:debian-xfce
 
+# এনভায়রনমেন্ট ভেরিয়েবল
 ENV PUID=1000
 ENV PGID=1000
 ENV TZ=Asia/Dhaka
 
-# Neofetch প্যাকেজ হিসেবে নেই, তাই আমরা সরাসরি স্ক্রিপ্ট ডাউনলোড করব
-# ১. প্রথমে curl এবং bash ইন্সটল করছি
-# ২. এরপর neofetch ডাউনলোড করে পারমিশন দিচ্ছি
-RUN apk add --no-cache curl bash && \
-    curl -L -o /usr/bin/neofetch https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch && \
-    chmod +x /usr/bin/neofetch
-
+# পোর্ট এক্সপোজ করা
 EXPOSE 3000
 
+# ভলিউম কনফিগারেশন
 VOLUME /config
+
+# Neofetch এবং অন্যান্য টুলস ইন্সটল করা (Debian এ apt কাজ করে)
+RUN apt-get update && \
+    apt-get install -y neofetch firefox-esr && \
+    apt-get clean
