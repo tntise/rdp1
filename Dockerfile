@@ -1,18 +1,24 @@
-# আমরা Debian ব্যবহার করছি যা Ubuntu-র মতোই কিন্তু একটু হালকা
+# আমরা Debian XFCE ব্যবহার করছি (হুবহু উবুন্টুর মতো)
 FROM linuxserver/webtop:debian-xfce
 
-# এনভায়রনমেন্ট ভেরিয়েবল
+# আপনার টাইমজোন এবং আইডি সেটআপ
 ENV PUID=1000
 ENV PGID=1000
 ENV TZ=Asia/Dhaka
 
-# পোর্ট এক্সপোজ করা
+# ---------- সিকিউরিটি সিস্টেম (Password) ----------
+# লগইন করার সময় এই নাম এবং পাসওয়ার্ড দিতে হবে
+ENV CUSTOM_USER=Rakin
+ENV PASSWORD=Rakin123#
+
+# পোর্ট ওপেন করা
 EXPOSE 3000
 
 # ভলিউম কনফিগারেশন
 VOLUME /config
 
-# Neofetch এবং অন্যান্য টুলস ইন্সটল করা (Debian এ apt কাজ করে)
+# আমরা কোনো সফটওয়্যার ইন্সটল করছি না, আপনি ম্যানুয়ালি করবেন
+# শুধু সিস্টেম আপডেট করে ক্লিন রাখা হচ্ছে
 RUN apt-get update && \
-    apt-get install -y neofetch firefox-esr && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
